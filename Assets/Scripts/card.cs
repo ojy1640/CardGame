@@ -24,20 +24,42 @@ public class Card : MonoBehaviour
     {
         audioSource.PlayOneShot(flip);
 
-        anim.SetBool("isOpen", true);
-        transform.Find("front").gameObject.SetActive(true);
-        transform.Find("back").gameObject.SetActive(false);
 
-        if (GameManager.I.firstCard == null)
+
+
+        if (transform.Find("back/isColor").gameObject.activeSelf == true)
         {
-            GameManager.I.firstCard = gameObject;
+            anim.SetBool("isFirstOpen", true);
+            anim.SetBool("isOpen", true);
+            transform.Find("front").gameObject.SetActive(true);
+            transform.Find("back").gameObject.SetActive(false);
+
+            if (GameManager.I.firstCard == null)
+            {
+                GameManager.I.firstCard = gameObject;
+            }
+            else
+            {
+                GameManager.I.secondCard = gameObject;
+                GameManager.I.IsMatched();
+            }
+            transform.Find("back/isColor").gameObject.SetActive(false);
         }
         else
         {
-            GameManager.I.secondCard = gameObject;
-            GameManager.I.IsMatched();
+            anim.SetBool("isOpen", true);
+            transform.Find("front").gameObject.SetActive(true);
+            transform.Find("back").gameObject.SetActive(false);
+            if (GameManager.I.firstCard == null)
+            {
+                GameManager.I.firstCard = gameObject;
+            }
+            else
+            {
+                GameManager.I.secondCard = gameObject;
+                GameManager.I.IsMatched();
+            }
         }
-
     }
     public void destroyCard()
     {
